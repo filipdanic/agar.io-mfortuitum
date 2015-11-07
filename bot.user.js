@@ -1,3 +1,12 @@
+// ==UserScript==
+// @name        Mycobacterium_Fortuitum
+// @namespace   Mycobacterium_Fortuitum
+// @include     http://agar.io/*
+// @version     0.1
+// @grant       none
+// @author      https://github.com/filipdanic
+// ==/UserScript==
+
 var mycobacteriumFortuitumBotVersion = "dev_0.1";
 
 window.botList = window.botList || [];
