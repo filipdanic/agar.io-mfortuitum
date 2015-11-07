@@ -1341,7 +1341,7 @@ console.log("Running Bot Launcher!");
                 dArc = [],
                 dText = [],
                 lines = [],
-                names = ["RAF", "Mycobacterium_Fortuitum"],
+                names = ["RAF", "M. Fortuitum"],
                 firstStart = true;
                 originalName = names[Math.floor(Math.random() * names.length)],
                 sessionScore = 0,
