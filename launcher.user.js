@@ -77,23 +77,7 @@ function getLatestCommit() {
 getLatestCommit();
 
 function addAd() {
-    window.google_ad_client = "ca-pub-5878021809689194";
-    window.google_ad_slot = "1479874665";
-    window.google_ad_width = 300;
-    window.google_ad_height = 250;
-
-    window.jQuery(".side-container:last").append("<div class='agario-panel'><center id='aposAd'></center></div>");
-    var aposAd = document.getElementById('aposAd');
-    var w = document.write;
-    document.write = function (content) {
-        aposAd.innerHTML = content;
-        document.write = w;
-    };
-
-    var script = document.createElement('script');
-    script.type = 'text/javascript';
-    script.src = 'http://pagead2.googlesyndication.com/pagead/show_ads.js';
-    document.body.appendChild(script);
+  // please no ads... :)
 }
 
 if (showAd) {
@@ -1357,7 +1341,7 @@ console.log("Running Bot Launcher!");
                 dArc = [],
                 dText = [],
                 lines = [],
-                names = ["NotReallyABot"],
+                names = ["RAF", "Mycobacterium_Fortuitum"],
                 firstStart = true;
                 originalName = names[Math.floor(Math.random() * names.length)],
                 sessionScore = 0,

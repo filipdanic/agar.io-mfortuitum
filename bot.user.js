@@ -16,6 +16,7 @@ function MFortuitum() {
     this.keyAction = function(key) {w};
     this.displayText = function() {return [s];};
     this.mainLoop = function() {
+        console.log("Move");
         return [screenToGameX(getMouseX()),
                 screenToGameY(getMouseY())];
     };
