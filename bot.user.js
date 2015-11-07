@@ -21,5 +21,8 @@ function MFortuitum() {
                 screenToGameY(getMouseY())];
     };
 }
-window.botList.push(new MFortuitum());
+
+MFortuitumBot = new MFortuitum();
+window.botList.push(MFortuitumBot);
+console.log("Pushed MFortuitum");
 window.updateBotList(); //This function might not exist yet.
