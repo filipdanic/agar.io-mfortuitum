@@ -78,7 +78,6 @@ function MFortuitum() {
         console.log( screenToGameX( getMouseX() ));
         return [screenToGameX(getMouseX()),
                 screenToGameY(getMouseY())];
-        ];
     };
 }
 
