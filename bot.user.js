@@ -72,10 +72,10 @@ function MFortuitum() {
         }
         return false;
     };
+
     this.mainLoop = function() {
         console.log("Move");
-        return [screenToGameX(getMouseX()),
-            screenToGameY(getMouseY())
+        return [screenToGameX(getMouseX())+10,screenToGameY(getMouseY()-5);
         ];
     };
 }
