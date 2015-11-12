@@ -67,7 +67,7 @@ function MFortuitum() {
       the color of the virus is #33ff33
     */
     this.isVirus = function(blob, cell) {
-      if (blob == null) {
+      if (blob === null) {
           if (cell.isVirus()){return true;}
           else {return false;}
       }
@@ -120,7 +120,7 @@ function MFortuitum() {
           }
       }
       return false;
-    }
+    };
 
 
     this.getAllObjects = function(that, listToUse, blob) {
@@ -129,7 +129,7 @@ function MFortuitum() {
 
         Object.keys(listToUse).forEach(function(element, index) {
             var identityCheck = that.isItMe(player, listToUse[element]);
-            if (!identityCheck {
+            if (!identityCheck) {
                 if (that.isFood(blob, listToUse[element]) && listToUse[element].isNotMoving()) {
                     foodElementList.push(listToUse[element]);
                 }
