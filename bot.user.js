@@ -17,13 +17,10 @@ function MFortuitum() {
     this.displayText = function() {
         return [s];
     };
+
     /*
-      Returns the mass of the blob based on it's size;
-      from the wiki: mass = size*size / 100
+      <START: MATH UTILITIES>
     */
-    this.getBlobMass = function(size) {
-        return Math.pow(size / 10, 2);
-    };
 
     /*
       To be bigger than the other blob we need to fit within the STANDARD_RATIO
@@ -34,6 +31,36 @@ function MFortuitum() {
           return true;
       }
       return false;
+    };
+    this.computeDistanceBetweenBlobs = function(x1, y1, x2, y2, size1, size2) {
+        /*
+          size1 and size2 are optional arguments;
+          replace them with 0 if they are not set
+        */
+        size1 = s1 || 0;
+        size2 = s2 || 0;
+        var x_distance = x1 - x2;
+        var y_distance = y1 - y2;
+        var distance = Math.sqrt(x_distance * x_distance + y_distance  * y_distance ) - (size1 + size2);
+
+        return distance;
+    };
+
+    /*
+      </END: MATH UTILITIES>
+    */
+
+
+    /*
+      <START: GAME RECEPTORS>
+    */
+
+    /*
+      Returns the mass of the blob based on it's size;
+      from the wiki: mass = size*size / 100
+    */
+    this.getBlobMass = function(size) {
+        return Math.pow(size / 10, 2);
     };
     /*
       is the observed cell a virus?
@@ -64,6 +91,7 @@ function MFortuitum() {
     };
     /*
       Is the cell we're looking at a threat?
+      If it's a bit bigger than us then it sure as hell is
     */
     this.isThreat = function(blob, cell) {
 
@@ -73,9 +101,91 @@ function MFortuitum() {
         return false;
     };
 
+    /*
+      </END: GAME RECEPTORS>
+    */
+
+    /*
+      <START: MAIN BOT LOGIC>
+    */
+
+    /*
+      Check if the cell is the player
+      We don't want to add ourselves as potential food for example :)
+    */
+    this.isItMe = function(player, cell){
+      for (var i = 0; i < player.length; i++) {
+          if (cell.id == player[i].id) {
+              return true;
+          }
+      }
+      return false;
+    }
+
+
+    this.getAllObjects = function(that, listToUse, blob) {
+        var foodElementList = [];
+        var player = getPlayer();
+
+        Object.keys(listToUse).forEach(function(element, index) {
+            var identityCheck = that.isItMe(player, listToUse[element]);
+            if (!identityCheck {
+                if (that.isFood(blob, listToUse[element]) && listToUse[element].isNotMoving()) {
+                    foodElementList.push(listToUse[element]);
+                }
+            }
+        });
+
+        foodList = [];
+        for (var i = 0; i < foodElementList.length; i++) {
+            foodList.push([foodElementList[i].x, foodElementList[i].y, foodElementList[i].size]);
+        }
+
+        return [foodList];
+    };
+
+    this.getMasterRecord = function(blob) {
+        var allDotsList = [];
+        var player = getPlayer();
+        var interNodes = getMemoryCells();
+
+        allDotsList = this.getAllObjects(this, interNodes, blob);
+        return dotList;
+    };
+
+    /*
+      </END: MAIN BOT LOGIC>
+    */
+
+
+    /*
+      The Main Loop
+    */
     this.mainLoop = function() {
-      console.log(screenToGameX(getMouseX()));
-      return [screenToGameX(getMouseX()), screenToGameY(getMouseY())];
+      var player = getPlayer();
+      var interNodes = getMemoryCells();
+      var tempMoveX = getPointX();
+      var tempMoveY = getPointY();
+      var botMoveChoice = [];
+
+        if (player.length > 0) {
+          for (var k = 0; k < player.length; k++) {
+              if (true) {
+                  drawPoint(player[k].x, player[k].y + player[k].size, 0, "" + (getLastUpdate() - player[k].birth) + " / " + (30000 + (player[k].birthMass * 57) - (getLastUpdate() - player[k].birth)) + " / " + player[k].birthMass);
+              }
+          }
+          for (var k = 0; /*k < player.length*/ k < 1; k++) {
+            var allObjects = this.getAllMasterRecord(player[k]);
+            var allPossibleFood = allObjects[0];
+            console.log(allPossibleFood);
+          }
+        }
+      var temp1 = floor(Math.random()*100);
+      var temp2 = floor(Math.random()*100);
+      botMoveChoice = [temp1, temp2];
+      console.log(botMoveChoice);
+      return botMoveChoice;
+
     };
 }
 
