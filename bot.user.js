@@ -190,10 +190,10 @@ function MFortuitum() {
             console.log(allPossibleFood);
           }
         }
-      var temp1 = floor(Math.random()*1000);
-      var temp2 = floor(Math.random()*1000);
-      var temp3 = floor(Math.random()*1000);
-      var temp4 = floor(Math.random()*1000);
+      var temp1 = Math.floor(Math.random()*1000);
+      var temp2 = Math.floor(Math.random()*1000);
+      var temp3 = Math.floor(Math.random()*1000);
+      var temp4 = Math.floor(Math.random()*1000);
       botMoveChoice = [[temp1, temp2], [temp3, temp4]];
       console.log(botMoveChoice);
       return botMoveChoice;
