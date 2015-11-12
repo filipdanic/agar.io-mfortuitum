@@ -27,11 +27,15 @@ function MFortuitum() {
       if enemy.size^2 * ratio is larger than player.size^2 then we need to be careful
     */
     this.compareSize = function(blob1, blob2, ratio) {
-      if (blob1.size * blob1.size * ratio < blobl2.size * blob2.size) {
+      if (blob1.size * blob1.size * ratio < blob2.size * blob2.size) {
           return true;
       }
       return false;
     };
+
+    /*
+      Compute the distance between two blobs based on their coordinates and possibly size
+    */
     this.computeDistanceBetweenBlobs = function(x1, y1, x2, y2, size1, size2) {
         /*
           size1 and size2 are optional arguments;
@@ -122,7 +126,9 @@ function MFortuitum() {
       return false;
     };
 
-
+    /*
+      Analyze the game space and returns a list of food blobs, viruses and threats in the nearby area
+    */
     this.getAllObjects = function(that, listToUse, blob) {
         var foodElementList = [];
         var player = getPlayer();
@@ -144,13 +150,17 @@ function MFortuitum() {
         return [foodList];
     };
 
+    /*
+      Creates a lit of all the blobs in the nearby area and returns them to the main logic
+      for eveulation
+    */
     this.getMasterRecord = function(blob) {
-        var allDotsList = [];
+        var allBlobsList = [];
         var player = getPlayer();
         var interNodes = getMemoryCells();
 
-        allDotsList = this.getAllObjects(this, interNodes, blob);
-        return dotList;
+        allBlobsList = this.getAllObjects(this, interNodes, blob);
+        return allBlobsList;
     };
 
     /*
@@ -162,11 +172,11 @@ function MFortuitum() {
       The Main Loop
     */
     this.mainLoop = function() {
-      var player = getPlayer();
-      var interNodes = getMemoryCells();
-      var tempMoveX = getPointX();
-      var tempMoveY = getPointY();
-      var botMoveChoice = [];
+      var player = getPlayer(); // main player instance
+      var interNodes = getMemoryCells(); // list of nearby nodes
+      var tempMoveX = getPointX(); //current x path
+      var tempMoveY = getPointY(); //current y path
+      var botMoveChoice = []; // an array that we pass as the result of the main loop; eg: [[x1,y1], [x2,y2]]
 
         if (player.length > 0) {
           for (var k = 0; k < player.length; k++) {
@@ -175,14 +185,16 @@ function MFortuitum() {
               }
           }
           for (var k = 0; /*k < player.length*/ k < 1; k++) {
-            var allObjects = this.getAllMasterRecord(player[k]);
+            var allObjects = this.getMasterRecord(player[k]);
             var allPossibleFood = allObjects[0];
             console.log(allPossibleFood);
           }
         }
-      var temp1 = floor(Math.random()*100);
-      var temp2 = floor(Math.random()*100);
-      botMoveChoice = [temp1, temp2];
+      var temp1 = floor(Math.random()*1000);
+      var temp2 = floor(Math.random()*1000);
+      var temp3 = floor(Math.random()*1000);
+      var temp4 = floor(Math.random()*1000);
+      botMoveChoice = [[temp1, temp2], [temp3, temp4]];
       console.log(botMoveChoice);
       return botMoveChoice;
 
