@@ -7,6 +7,7 @@
 // @author      https://github.com/filipdanic
 // ==/UserScript==
 var mycobacteriumFortuitumBotVersion = "dev_0.1";
+var DEBUG = 1;
 const STANDARD_RATIO = 1.33;
 
 window.botList = window.botList || [];
@@ -177,7 +178,7 @@ function MFortuitum() {
       var tempMoveX = getPointX(); //current x path
       var tempMoveY = getPointY(); //current y path
       var botMoveChoice = []; // an array that we pass as the result of the main loop; eg: [[x1,y1], [x2,y2]]
-
+      var foodList = [];
         if (player.length > 0) {
           for (var k = 0; k < player.length; k++) {
               if (true) {
@@ -187,15 +188,25 @@ function MFortuitum() {
           for (var k = 0; /*k < player.length*/ k < 1; k++) {
             var allObjects = this.getMasterRecord(player[k]);
             var allPossibleFood = allObjects[0];
-            console.log(allPossibleFood);
+            foodList = allPossibleFood;
+            if (DEBUG == 1){
+              console.log(allPossibleFood[0]);
+              DEBUG = 0;
+            }
+
           }
         }
-      var temp1 = Math.floor(Math.random()*1000);
-      var temp2 = Math.floor(Math.random()*1000);
-      var temp3 = Math.floor(Math.random()*1000);
-      var temp4 = Math.floor(Math.random()*1000);
-      botMoveChoice = [[temp1, temp2], [temp3, temp4]];
-      console.log(botMoveChoice);
+      /*
+        //Random movemnet
+        var temp1 = Math.floor(Math.random()*1000);
+        var temp2 = Math.floor(Math.random()*1000);
+        var temp3 = Math.floor(Math.random()*1000);
+        var temp4 = Math.floor(Math.random()*1000);
+        botMoveChoice = [[temp1, temp2], [temp3, temp4]];
+        console.log("x1: "+temp1+" y1: "+temp2+" | x2: "+temp3+" y2: "+ temp4);
+      */
+      botMoveChoice = [foodList[0][0],foodList[0][1]];
+
       return botMoveChoice;
 
     };
