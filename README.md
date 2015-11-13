@@ -1,8 +1,22 @@
-# What's This?
+# What's All This?
 
-A simple JS bot that can play Agar.io and compete with other players. Created as a student project for a CS class I'm attending. I owe a lot of thanks to Apostolique and his framework: https://github.com/Apostolique/Agar.io-bot
+A simple JS bot that can play Agar.io and compete with other players. Created as a student project for a CS class I'm attending (this is my first time creating an AI bot). I owe a lot of thanks to Apostolique and his framework: https://github.com/Apostolique/Agar.io-bot
 
-# What's with the name?
+My bot.user.js file is pretty well documented so it's a good learning experience for anyone who is new to this.
+
+# How to Install?
+
+- Install the Tampermonkey plugin for Google Chrome (https://chrome.google.com/webstore/detail/tampermonkey/dhdgffkkebhmkfjojejmpbldmpobfkfo)
+- Open https://github.com/filipdanic/agar.io-mfortuitum/blob/master/bot.user.js and https://github.com/filipdanic/agar.io-mfortuitum/blob/master/launcher.user.js in a new tab and click on 'Raw' in the top-right corner
+- Tampermonkey will now ask you for permission to add these files
+- Head over to agar.io and enjoy the new interface; the bot will be identified as Mycobacterium_Fortuitum
+- You can use any other bots that were made Apostolique's framework
+
+*Note:* It is very likely that the bot will not work if you have some other scripts or mods installed. Sorry :(
+
+*Debugging off:* For faster performance you should probably edit the bot.user.js file from the Tampermonkey dashboard. A at the start of the bot.user.js to 0 (zero) so that they do not log any data in the console (prevents the script from executing needless operations).
+
+# What's With The Name?
 
 Agar is a jelly-like substance, obtained from algae. It was discovered in the late 1650s or early 1660s by Mino Tarōzaemon (美濃 太郎左衛門) in Japan, where it is called kanten. Agar is used to create food plates that are used to culture bacteria and diagnose infection.
 
