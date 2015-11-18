@@ -10,7 +10,7 @@ var mycobacteriumFortuitumBotVersion = "dev_0.1";
 
 /*
   If these debug variables are set to 1 then they will always call console.log
-  and dump their date in there. 
+  and dump their date in there.
 */
 var DEBUG_FOOD = 1;
 
@@ -48,8 +48,8 @@ function MFortuitum() {
           size1 and size2 are optional arguments;
           replace them with 0 if they are not set
         */
-        size1 = s1 || 0;
-        size2 = s2 || 0;
+        size1 = size1 || 0;
+        size2 = size2 || 0;
         var x_distance = x1 - x2;
         var y_distance = y1 - y2;
         var distance = Math.sqrt(x_distance * x_distance + y_distance  * y_distance ) - (size1 + size2);
@@ -134,6 +134,30 @@ function MFortuitum() {
     };
 
     /*
+      Clusters food blobs based on the list of all foods
+    */
+    this.clusterFood = function(foodList, blobSize) {
+      var clusters = [];
+      var addedCluster = false;
+      for (var i = 0; i < foodList.length; i++) {
+          for (var j = 0; j < clusters.length; j++) {
+              if (this.computeDistanceBetweenBlobs(foodList[i][0], foodList[i][1], clusters[j][0], clusters[j][1]) < blobSize * 2) {
+                  clusters[j][0] = (foodList[i][0] + clusters[j][0]) / 2;
+                  clusters[j][1] = (foodList[i][1] + clusters[j][1]) / 2;
+                  clusters[j][2] += foodList[i][2];
+                  addedCluster = true;
+                  break;
+              }
+          }
+          if (!addedCluster) {
+              clusters.push([foodList[i][0], foodList[i][1], foodList[i][2], 0]);
+          }
+          addedCluster = false;
+      }
+      return clusters;
+    };
+
+    /*
       Analyze the game space and returns a list of food blobs, viruses and threats in the nearby area
     */
     this.getAllObjects = function(that, listToUse, blob) {
@@ -183,37 +207,48 @@ function MFortuitum() {
       var interNodes = getMemoryCells(); // list of nearby nodes
       var tempMoveX = getPointX(); //current x path
       var tempMoveY = getPointY(); //current y path
-      var botMoveChoice = []; // an array that we pass as the result of the main loop; eg: [[x1,y1], [x2,y2]]
-      var foodList = [];
+      var botMoveChoice = []; // an array that we pass as the result of the main loop; eg: [x,y]
+      var foodList = []; // will contain a list of all food
+      var clusterAllFood = []; // smart clustering
+      var bestCluster = []; // helper variable to assist us in finding the best cluster
+      var bestClusterIndex = 0; // the index of the best cluster
 
-        if (player.length > 0) {
-          for (var k = 0; k < player.length; k++) {
-              if (true) {
-                  drawPoint(player[k].x, player[k].y + player[k].size, 0, "" + (getLastUpdate() - player[k].birth) + " / " + (30000 + (player[k].birthMass * 57) - (getLastUpdate() - player[k].birth)) + " / " + player[k].birthMass);
-              }
-          }
-          for (var k = 0; /*k < player.length*/ k < 1; k++) {
-            var allObjects = this.getMasterRecord(player[k]);
-            var allPossibleFood = allObjects[0];
-            foodList = allPossibleFood;
-            if (DEBUG_FOOD == 1){
-              console.log(allPossibleFood[0]);
+      if (player.length > 0) {
+        for (var k = 0; k < player.length; k++) {
+            if (true) {
+                drawPoint(player[k].x, player[k].y + player[k].size, 0, "" + (getLastUpdate() - player[k].birth) + " / " + (30000 + (player[k].birthMass * 57) - (getLastUpdate() - player[k].birth)) + " / " + player[k].birthMass);
             }
-
-          }
         }
+        for (var k = 0; /*k < player.length*/ k < 1; k++) {
+          var allObjects = this.getMasterRecord(player[k]);
+          var allPossibleFood = allObjects[0];
+          foodList = allPossibleFood;
+          if (DEBUG_FOOD == 1){
+            console.log(allPossibleFood[0]);
+          }
 
-      /*
-        //Random movemnet
-        var temp1 = Math.floor(Math.random()*1000);
-        var temp2 = Math.floor(Math.random()*1000);
-        var temp3 = Math.floor(Math.random()*1000);
-        var temp4 = Math.floor(Math.random()*1000);
-        botMoveChoice = [[temp1, temp2], [temp3, temp4]];
-        console.log("x1: "+temp1+" y1: "+temp2+" | x2: "+temp3+" y2: "+ temp4);
-      */
-      botMoveChoice = [foodList[0][0],foodList[0][1]];
+        }
+      }
 
+      clusterAllFood = this.clusterFood(allPossibleFood, player[0].size);
+
+      // if there is no food, just move somewhere
+      if (clusterAllFood.length < 1){
+        botMoveChoice = [tempMoveX, tempMoveY];
+        return botMoveChoice;
+      }
+
+      bestClusterIndex = 0;
+      bestCluster = clusterAllFood[0][2];
+
+      for (var i = 1; i < clusterAllFood.length; i++) {
+          if (bestCluster < clusterAllFood[i][2]) {
+              bestCluster = clusterAllFood[i][2];
+              bestClusterIndex = i;
+          }
+      }
+
+      botMoveChoice = [clusterAllFood[bestClusterIndex][0],clusterAllFood[bestClusterIndex][1]];
       return botMoveChoice;
 
     };
