@@ -14,7 +14,7 @@ My bot.user.js file is pretty well documented so it's a good learning experience
 
 *Note:* It is very likely that the bot will not work if you have some other scripts or mods installed. Sorry :(
 
-*Debugging off:* For faster performance you should probably edit the bot.user.js file from the Tampermonkey dashboard. A at the start of the bot.user.js to 0 (zero) so that they do not log any data in the console (prevents the script from executing needless operations).
+*Debugging off:* To turn off debugging messages you need to edit the bot.user.js file from the Tampermonkey dashboard. At the start of the bot.user.js set all the constants (CONST variables) to 0 (zero) so that they do not log any data in the console (prevents the script from executing needless operations).
 
 # What's With The Name?
 
