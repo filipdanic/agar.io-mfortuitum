@@ -22,4 +22,4 @@ Agar is a jelly-like substance, obtained from algae. It was discovered in the la
 
 On the other hand, Mycobacterium fortuitum, is a species of bacteria that can be described as one of the fastest-growing species that can cause infections. The term "fast growing" is a reference to a growth rate of 3 or 4 days, when compared to other Mycobacteria that may take weeks to grow out on laboratory media. It is also a very resilient bacteria that is even better adapt at surviving than spores.
 
-TL;DR: Agar is used to grow bacteria and Mycobacterium fortuitum is the fastest-growing and most resilient ones out there.
+TL;DR: Agar is used to grow bacteria and Mycobacterium fortuitum is one of the fastest-growing and most resilient ones out there.

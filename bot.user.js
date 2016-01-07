@@ -16,6 +16,7 @@ const DEBUG_FOOD = 0;
 const DEBUG_THREATS = 0;
 const DEBUG_DIRECTION = 1;
 const STANDARD_RATIO = 1.33;
+const SAFE_DISTANCE = 200;
 
 window.botList = window.botList || [];
 
@@ -249,57 +250,48 @@ function MFortuitum() {
       }
 
       /*
-        * are there any incoming threats?
-      */
-      threatIndex = 0;
-      threatMinDistance = 999999999;
-      foundThreat = false;
-      for (i = 0; i < threatList.length; i++) {
-        currentThreatDistance = this.computeDistanceBetweenBlobs(tempMoveX, tempMoveY, threatList[i].x, threatList[i].y);
-        if (currentThreatDistance < (threatList[i].size + 250) ){
-          if (currentThreatDistance < threatMinDistance){
-            foundThreat = true;
-            threatMinDistance = currentThreatDistance;
-            threatIndex = i;
-          }
-        }
-      }
-      if (foundThreat == true){
-        if (DEBUG_DIRECTION == 1) console.log('INCOMING: MOVE AWAY FROM NEARBY THREAT');
-        botMoveChoice = [-threatList[threatIndex].x, -threatList[threatIndex].y ];
-        return botMoveChoice;
-      }
-
-
-      /*
-        * are there any suitable clusters?
+        * get all suitable food clusters
       */
 
       clusterAllFood = this.clusterFood(foodList, player[0].size);
-      bestClusterIndex = 0;
-      clusterFound = false;
-      bestCluster = clusterAllFood[0][2];
-      for (var i = 0; i < clusterAllFood.length; i++) {
-          if (bestCluster < clusterAllFood[i][2]) {
-              bestCluster = clusterAllFood[i][2];
-              bestClusterIndex = i;
-              clusterFound = true;
+
+      /*
+        * are there any incoming threats?
+        * are there any clusters that are dangerous?
+      */
+      numberOfPotentialThreats = threatList.length;
+      for (i = 0; i < numberOfPotentialThreats; i++) {
+        for (j = 0; j < clusterAllFood.length; j++){
+          if (this.computeDistanceBetweenBlobs(clusterAllFood[j][0],clusterAllFood[j][1],threatList[i].x,
+            threatList[i].y) < threatList[i].size + SAFE_DISTANCE ){
+              clusterAllFood.splice(j,1);
           }
+        }
       }
 
       /*
-        * no clusters? now what?
+        * Remaining clusters
       */
-      if (clusterFound == false){
-        if (DEBUG_DIRECTION == 1) console.log('No cluster or threats, just head out randomly');
-        botMoveChoice = [foodList[0][0],foodList[0][1]];
+      var numberOfClusters = clusterAllFood.length;
+      if (numberOfClusters > 0){
+        bestCluster = clusterAllFood[0];
+        for (i=1; i<numberOfClusters; i++){
+          if (bestCluster[0][2] < clusterAllFood[i][2]){
+            bestCluster = clusterAllFood[i];
+          }
+        }
+        if (DEBUG_DIRECTION == 1) console.log('Moving towards best cluster');
+        botMoveChoice = [bestCluster[0], bestCluster[1]];
         return botMoveChoice;
       }
-
-      if (DEBUG_DIRECTION == 1) console.log('Moving towards a food cluster');
-      botMoveChoice = [clusterAllFood[bestClusterIndex][0],clusterAllFood[bestClusterIndex][1]];
-      return botMoveChoice;
-
+      else{
+        /*
+          * no clusters? now what?
+        */
+        if (DEBUG_DIRECTION == 1) console.log('Moving towards closest food');
+        botMoveChoice = [allPossibleFood[0][0],allPossibleFood[0][1]];
+        return botMoveChoice;
+      }
     };
 }
 
