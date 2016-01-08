@@ -667,7 +667,7 @@ console.log("Running Bot Launcher!");
             circles.push([x_1, y_1, radius, drawColor]);
         }
     }
-
+    
     function V() {
 
         //UPDATE
