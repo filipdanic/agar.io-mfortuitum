@@ -319,8 +319,8 @@ function MFortuitum() {
           enemyAverageX /= threatList.length;
           enemyAverageY /= threatList.length;
           var escapeVector = this.multiplyVector([enemyAverageX, enemyAverageY], -1);
-          tempMoveX += moveAwayVector[0];
-          tempMoveY += moveAwayVector[1];
+          tempMoveX += escapeVector[0];
+          tempMoveY += escapeVector[1];
           console.log('Use escape vector');
           drawLine(player[0].x, player[0].y, tempMoveX, tempMoveY, 5);
           botMoveChoice = [tempMoveX, tempMoveY];
