@@ -61,7 +61,7 @@ function MFortuitum() {
     /*
       multiplyVector: simple vector multiplication
     */
-    function multiplyVector(vector, m) {
+    this.multiplyVector = function(vector, m) {
       return [vector[0] * m, vector[1] * m];
     }
 
@@ -292,12 +292,16 @@ function MFortuitum() {
       */
       var numberOfClusters = clusterAllFood.length;
       if (numberOfClusters > 0){
-        bestCluster = clusterAllFood[0];
+        bestCluster = clusterAllFood[0][2] / this.computeDistanceBetweenBlobs(player[0].x, player[0].y, clusterAllFood[0][0], clusterAllFood[0][1]);
+        bestClusterIndex = 0;
         for (i=1; i<numberOfClusters; i++){
-          if (bestCluster[0][2] < clusterAllFood[i][2]){
-            bestCluster = clusterAllFood[i];
+          var currentClusterValue = clusterAllFood[i][2] / this.computeDistanceBetweenBlobs(player[0].x, player[0].y, clusterAllFood[i][0], clusterAllFood[i][1]);
+          if (bestCluster < currentClusterValue  ){
+            bestCluster = currentClusterValue;
+            bestClusterIndex = i;
           }
         }
+        bestCluster = clusterAllFood[bestClusterIndex];
         
         //bot is surrounded probably
         if (this.computeDistanceBetweenBlobs(player[0].x, player[0].y, bestCluster[0], bestCluster[1]) <= 10) {
