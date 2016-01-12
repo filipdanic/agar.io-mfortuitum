@@ -58,6 +58,12 @@ function MFortuitum() {
 
         return distance;
     };
+    /*
+      multiplyVector: simple vector multiplication
+    */
+    function multiplyVector(vector, m) {
+      return [vector[0] * m, vector[1] * m];
+    }
 
     // ==== BOT RECEPTORS ==== 
 
@@ -292,7 +298,43 @@ function MFortuitum() {
             bestCluster = clusterAllFood[i];
           }
         }
+        
+        //bot is surrounded probably
+        if (this.computeDistanceBetweenBlobs(player[0].x, player[0].y, bestCluster[0], bestCluster[1]) <= 10) {
+          tempMoveX = getPointX();
+          tempMoveY = getPointY();
+          var enemyAverageX = 0;
+          var enemyAverageY = 0;
+
+          for (var i = 0; i < threatList.length; i++) {
+              var enemy = threatList[i];
+              enemyAverageX += enemy.x;
+              enemyAverageY += enemy.y;
+          }
+
+          enemyAverageX /= threatList.length;
+          enemyAverageY /= threatList.length;
+          var escapeVector = this.multiplyVector([enemyAverageX, enemyAverageY], -1);
+          tempMoveX += moveAwayVector[0];
+          tempMoveY += moveAwayVector[1];
+          console.log('Use escape vector');
+          drawLine(player[0].x, player[0].y, tempMoveX, tempMoveY, 5);
+          botMoveChoice = [tempMoveX, tempMoveY];
+          return botMoveChoice;      
+        }
+
+        for (var i = 0; i < threatList.length; i++) {
+          var enemy = threatList[i];
+          if (this.computeDistanceBetweenBlobs(player[0].x, player[0].y, enemy.x, enemy.y, player[0].size, enemy.size) <= 50){
+            console.log('Too close for comfort');
+            botMoveChoice = [enemy.x, -enemy.y];
+            return botMoveChoice;
+          }
+        }
+
+
         if (DEBUG_DIRECTION == 1) console.log('Moving towards best cluster');
+        drawLine(player[0].x, player[0].y, bestCluster[0], bestCluster[1], 5);
         botMoveChoice = [bestCluster[0], bestCluster[1]];
         return botMoveChoice;
       }
